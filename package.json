@@ -1,0 +1,24 @@
+{
+  "name": "crawly-img",
+  "version": "1.0.0",
+  "description": "Crawl images periodically from given URL",
+  "main": "main",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "run": "node main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrkazawa/crawly-img.git"
+  },
+  "author": "Yustus Oktian",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrkazawa/crawly-img.gitissues"
+  },
+  "dependencies": {
+    "request": "2.88.2"
+  }
+}
