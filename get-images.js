@@ -1,6 +1,10 @@
 const fs = require('fs');
 const request = require('request');
 
+// parameters
+const IMAGE_URL = 'https://s3-eu-west-1.amazonaws.com/congestion-cameras/TCCT0338.jpg';
+const DURATION = 30000; // in milliseconds
+
 async function download(url, dest) {
   const file = fs.createWriteStream(dest);
 
@@ -23,7 +27,7 @@ async function download(url, dest) {
     });
 }
 
-function convertTZ(date, tzString) {
+function convertTimezone(date, tzString) {
   return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-GB", {
     timeZone: tzString
   }));
@@ -31,14 +35,14 @@ function convertTZ(date, tzString) {
 
 function getCurrentDateFormat() {
   let date_obj = new Date();
-  convertedDate = convertTZ(date_obj, 'Europe/London');
+  converted_date = convertTimezone(date_obj, 'Europe/London');
 
-  let date = ("0" + convertedDate.getDate()).slice(-2);
-  let month = convertedDate.getMonth();
-  let year = convertedDate.getFullYear();
-  let hours = ("0" + convertedDate.getHours()).slice(-2);
-  let minutes = ("0" + convertedDate.getMinutes()).slice(-2);
-  let seconds = ("0" + convertedDate.getSeconds()).slice(-2);
+  let date = ("0" + converted_date.getDate()).slice(-2);
+  let month = converted_date.getMonth();
+  let year = converted_date.getFullYear();
+  let hours = ("0" + converted_date.getHours()).slice(-2);
+  let minutes = ("0" + converted_date.getMinutes()).slice(-2);
+  let seconds = ("0" + converted_date.getSeconds()).slice(-2);
 
   const MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -48,13 +52,13 @@ function getCurrentDateFormat() {
 }
 
 async function main() {
-  const IMAGE_URL = 'https://s3-eu-west-1.amazonaws.com/congestion-cameras/TCCT0338.jpg';
   const file_name = getCurrentDateFormat();
+  const path = `./images/${file_name}.jpg`;
 
-  await download(IMAGE_URL, `./images/${file_name}.jpg`);
+  await download(IMAGE_URL, path);
 
-  // recursive every 5 seconds
-  //setTimeout(main, 5000);
+  // recursive every a given interval
+  setTimeout(main, DURATION);
 }
 
 console.log("Crawling for images...");
