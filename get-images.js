@@ -52,8 +52,14 @@ function getCurrentDateFormat() {
 }
 
 async function main() {
+  // create directory to store image
+  const directory = `./images`;
+  if (!fs.existsSync(directory)){
+    fs.mkdirSync(directory);
+  }
+
   const file_name = getCurrentDateFormat();
-  const path = `./images/${file_name}.jpg`;
+  const path = `${directory}/${file_name}.jpg`;
 
   await download(IMAGE_URL, path);
 
